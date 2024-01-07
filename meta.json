@@ -1,0 +1,22 @@
+{
+  "module_id": "zaporter:sds011",
+  "visibility": "public",
+  "url": "https://github.com/zaporter/viam-sds011",
+  "description": "Connect to SDS011 over usb",
+  "models": [
+    {
+      "api": "rdk:component:sensor",
+      "model": "zaporter:sds011:v1"
+    },
+    {
+      "api": "rdk:component:sensor",
+      "model": "zaporter:sds011:v1-fake"
+    }
+  ],
+  "entrypoint": "./bin/module",
+  "build": {
+    "build": "make package",
+    "path": "module.tar.gz",
+    "arch": ["linux/amd64", "linux/arm64"]
+  }
+}
