@@ -1,7 +1,7 @@
 <h1 >
 <h1 align="center">
   <br>
-  <a href="https://github.com/zaporter/viam-timelapse"><img src="https://raw.githubusercontent.com/zaporter/viam-timelapse/main/etc/icon.jpg" alt="stars long exposure icon" width="200"></a>
+  <a href="https://github.com/zaporter/viam-timelapse"><img src="https://raw.githubusercontent.com/zaporter/viam-timelapse/main/etc/icon.jpg" alt="stars long exposure icon" width="300"></a>
   <br>
   Timelapse module for Viam
   <br>
