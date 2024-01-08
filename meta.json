@@ -1,16 +1,16 @@
 {
-  "module_id": "zaporter:sds011",
+  "module_id": "zaporter:timelapse",
   "visibility": "public",
-  "url": "https://github.com/zaporter/viam-sds011",
-  "description": "Connect to SDS011 over usb",
+  "url": "https://github.com/zaporter/viam-timelapse",
+  "description": "create a timelapse from a camera",
   "models": [
     {
-      "api": "rdk:component:sensor",
-      "model": "zaporter:sds011:v1"
+      "api": "rdk:component:camera",
+      "model": "zaporter:timelapse:v1"
     },
     {
-      "api": "rdk:component:sensor",
-      "model": "zaporter:sds011:v1-fake"
+      "api": "rdk:component:camera",
+      "model": "zaporter:timelapse:v1-fake"
     }
   ],
   "entrypoint": "./bin/module",

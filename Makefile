@@ -4,7 +4,7 @@ VERSION=v1.12.0
 GIT_REVISION = $(shell git rev-parse HEAD | tr -d '\n')
 TAG_VERSION?=$(shell git tag --points-at | sort -Vr | head -n1)
 CGO_LDFLAGS=""
-GO_BUILD_LDFLAGS = -ldflags "-extldflags=-static -X 'main.Version=${TAG_VERSION}' -X 'main.GitRevision=${GIT_REVISION}'"
+GO_BUILD_LDFLAGS = -ldflags "-s -w -extld='/host/etc/ld_wrapper.sh' -X 'main.Version=${TAG_VERSION}' -X 'main.GitRevision=${GIT_REVISION}'"
 TOOL_BIN = etc/gotools/$(shell uname -s)-$(shell uname -m)
 
 .PHONY: default
@@ -32,7 +32,7 @@ test:
 
 .PHONY: build
 build: 
-	mkdir -p bin && CGO_ENABLED=0 CGO_LDFLAGS=${CGO_LDFLAGS} go build $(GO_BUILD_LDFLAGS) -o bin/module module/main.go
+	mkdir -p bin && CGO_LDFLAGS=${CGO_LDFLAGS} go build $(GO_BUILD_LDFLAGS) -o bin/module module/main.go
 
 .PHONY: package
 package: build

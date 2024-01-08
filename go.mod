@@ -1,4 +1,4 @@
-module github.com/zaporter-work/viam-sds011
+module github.com/zaporter/viam-timelapse
 
 go 1.20
 
@@ -11,7 +11,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rhysd/actionlint v1.6.24
 	github.com/ryszard/sds011 v0.0.0-20170226135337-5d7058e01434
-	go.viam.com/rdk v0.16.0
+	go.viam.com/rdk v0.17.0
 	go.viam.com/utils v0.1.54
 	gotest.tools/gotestsum v1.10.0
 )
@@ -39,10 +39,12 @@ require (
 	github.com/alingse/asasalint v0.0.11 // indirect
 	github.com/ashanbrown/forbidigo v1.4.0 // indirect
 	github.com/ashanbrown/makezero v1.1.1 // indirect
+	github.com/aybabtme/uniplot v0.0.0-20151203143629-039c559e5e7e // indirect
 	github.com/benbjohnson/clock v1.3.3 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bep/debounce v1.2.1 // indirect
 	github.com/bkielbasa/cyclop v1.2.0 // indirect
+	github.com/blackjack/webcam v0.0.0-20230509180125-87693b3f29dc // indirect
 	github.com/blizzy78/varnamelen v0.8.0 // indirect
 	github.com/bombsimon/wsl/v3 v3.4.0 // indirect
 	github.com/breml/bidichk v0.2.3 // indirect
@@ -64,6 +66,7 @@ require (
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0 // indirect
 	github.com/denis-tingaikin/go-header v0.4.3 // indirect
 	github.com/desertbit/timer v0.0.0-20180107155436-c41aec40b27f // indirect
+	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/dnephin/pflag v1.0.7 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/edaniels/golog v0.0.0-20230215213219-28954395e8d0 // indirect
@@ -78,8 +81,10 @@ require (
 	github.com/fatih/color v1.15.0 // indirect
 	github.com/fatih/structtag v1.2.0 // indirect
 	github.com/firefart/nonamedreturns v1.0.4 // indirect
+	github.com/fogleman/gg v1.3.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/fzipp/gocyclo v0.6.0 // indirect
+	github.com/gen2brain/malgo v0.11.10 // indirect
 	github.com/go-critic/go-critic v0.6.7 // indirect
 	github.com/go-fonts/liberation v0.3.0 // indirect
 	github.com/go-gl/mathgl v1.0.0 // indirect
@@ -161,6 +166,7 @@ require (
 	github.com/lestrrat-go/jwx v1.2.25 // indirect
 	github.com/lestrrat-go/option v1.0.1 // indirect
 	github.com/lib/pq v1.10.7 // indirect
+	github.com/lmittmann/ppm v1.0.2 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/lufeee/execinquery v1.2.1 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
@@ -180,6 +186,8 @@ require (
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/montanaflynn/stats v0.7.0 // indirect
 	github.com/moricho/tparallel v0.2.1 // indirect
+	github.com/muesli/clusters v0.0.0-20200529215643-2700303c1762 // indirect
+	github.com/muesli/kmeans v0.3.1 // indirect
 	github.com/nakabonne/nestif v0.3.1 // indirect
 	github.com/nbutton23/zxcvbn-go v0.0.0-20210217022336-fa2cb2858354 // indirect
 	github.com/nishanths/exhaustive v0.9.5 // indirect
@@ -194,6 +202,7 @@ require (
 	github.com/pion/interceptor v0.1.22 // indirect
 	github.com/pion/logging v0.2.2 // indirect
 	github.com/pion/mdns v0.0.8 // indirect
+	github.com/pion/mediadevices v0.5.1-0.20231017204133-3c9fee958efe // indirect
 	github.com/pion/randutil v0.1.0 // indirect
 	github.com/pion/rtcp v1.2.10 // indirect
 	github.com/pion/rtp v1.8.2 // indirect
@@ -254,9 +263,11 @@ require (
 	github.com/ultraware/funlen v0.0.3 // indirect
 	github.com/ultraware/whitespace v0.0.5 // indirect
 	github.com/uudashr/gocognit v1.0.6 // indirect
+	github.com/viam-labs/go-libjpeg v0.3.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
+	github.com/xfmoulet/qoi v0.2.0 // indirect
 	github.com/yagipy/maintidx v1.0.0 // indirect
 	github.com/yeya24/promlinter v0.2.0 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
@@ -270,8 +281,9 @@ require (
 	go.uber.org/goleak v1.2.1 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
-	go.viam.com/api v0.1.227 // indirect
+	go.viam.com/api v0.1.238 // indirect
 	go.viam.com/test v1.1.1-0.20220913152726-5da9916c08a2 // indirect
+	goji.io v2.0.2+incompatible // indirect
 	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea // indirect
 	golang.org/x/exp/typeparams v0.0.0-20230203172020-98cc5a0785f9 // indirect

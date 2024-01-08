@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	mymodule "github.com/zaporter-work/viam-sds011"
+	mymodule "github.com/zaporter/viam-timelapse"
 	"go.viam.com/utils"
 
 	"go.viam.com/rdk/components/sensor"
@@ -17,7 +17,7 @@ var (
 )
 
 func main() {
-	utils.ContextualMain(mainWithArgs, module.NewLoggerFromArgs("animalSoundSpammer"))
+	utils.ContextualMain(mainWithArgs, module.NewLoggerFromArgs("timelapse"))
 }
 
 func mainWithArgs(ctx context.Context, args []string, logger logging.Logger) error {
@@ -29,9 +29,9 @@ func mainWithArgs(ctx context.Context, args []string, logger logging.Logger) err
 		versionFields = append(versionFields, "git_rev", GitRevision)
 	}
 	if len(versionFields) != 0 {
-		logger.Infow("sds011", versionFields...)
+		logger.Infow("timelapse", versionFields...)
 	} else {
-		logger.Info("sds011" + " built from source; version unknown")
+		logger.Info("timelapse" + " built from source; version unknown")
 	}
 	mod, err := module.NewModuleFromArgs(ctx, logger)
 	if err != nil {

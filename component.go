@@ -8,6 +8,7 @@ import (
 	"github.com/ryszard/sds011/go/sds011"
 
 	"go.viam.com/rdk/components/sensor"
+	_ "go.viam.com/rdk/components/camera"
 	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/resource"
 )
