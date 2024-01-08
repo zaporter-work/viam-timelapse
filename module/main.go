@@ -6,7 +6,7 @@ import (
 	mymodule "github.com/zaporter/viam-timelapse"
 	"go.viam.com/utils"
 
-	"go.viam.com/rdk/components/sensor"
+	"go.viam.com/rdk/components/camera"
 	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/module"
 )
@@ -37,10 +37,10 @@ func mainWithArgs(ctx context.Context, args []string, logger logging.Logger) err
 	if err != nil {
 		return err
 	}
-	if err := mod.AddModelFromRegistry(ctx, sensor.API, mymodule.Model); err != nil {
+	if err := mod.AddModelFromRegistry(ctx, camera.API, mymodule.Model); err != nil {
 		return err
 	}
-	if err := mod.AddModelFromRegistry(ctx, sensor.API, mymodule.ModelFake); err != nil {
+	if err := mod.AddModelFromRegistry(ctx, camera.API, mymodule.ModelFake); err != nil {
 		return err
 	}
 
