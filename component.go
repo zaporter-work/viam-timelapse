@@ -7,8 +7,11 @@ import (
 	"github.com/pkg/errors"
 
 	"go.viam.com/rdk/components/camera"
+	"go.viam.com/rdk/gostream"
 	"go.viam.com/rdk/logging"
+	"go.viam.com/rdk/pointcloud"
 	"go.viam.com/rdk/resource"
+	"go.viam.com/rdk/rimage/transform"
 )
 
 var (
@@ -43,9 +46,10 @@ func init() {
 type component struct {
 	resource.Named
 	resource.AlwaysRebuild
-	cfg          *Config
-	isFake       bool
-	sds011Sensor *sds011.Sensor
+	cfg    *Config
+	isFake bool
+
+	captureCam camera.Camera
 
 	cancelCtx  context.Context
 	cancelFunc func()
@@ -54,86 +58,35 @@ type component struct {
 }
 
 func createComponent(_ context.Context,
-	_ resource.Dependencies,
+	deps resource.Dependencies,
 	conf resource.Config,
 	logger logging.Logger,
 	isFake bool,
-) (sensor.Sensor, error) {
+) (camera.Camera, error) {
 	newConf, err := resource.NativeConfig[*Config](conf)
 	if err != nil {
 		return nil, errors.Wrap(err, "create component failed due to config parsing")
 	}
 
-	var sensor *sds011.Sensor
 	cancelCtx, cancelFunc := context.WithCancel(context.Background())
-	instance := &component{
-		Named:        conf.ResourceName().AsNamed(),
-		cfg:          newConf,
-		cancelCtx:    cancelCtx,
-		cancelFunc:   cancelFunc,
-		sds011Sensor: sensor,
-		isFake:       isFake,
-		logger:       logger,
-	}
+	captureCam := camera.Camera(nil)
 	if !isFake {
-		if err := instance.setupSensor(); err != nil {
-			if instance.sds011Sensor != nil {
-				instance.sds011Sensor.Close()
-			}
-			return nil, err
+		captureCam, err = camera.FromDependencies(deps, newConf.CaptureCamera)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to create timelapse because we could not access the camera")
 		}
+	}
+
+	instance := &component{
+		Named:      conf.ResourceName().AsNamed(),
+		cfg:        newConf,
+		cancelCtx:  cancelCtx,
+		cancelFunc: cancelFunc,
+		captureCam: captureCam,
+		isFake:     isFake,
+		logger:     logger,
 	}
 	return instance, nil
-}
-
-func (c *component) Readings(ctx context.Context, extra map[string]interface{}) (map[string]interface{}, error) {
-	if c.isFake {
-		return map[string]interface{}{
-			"pm_10":  10.0,
-			"pm_2.5": 15.0,
-			"units":  "μg/m³",
-		}, nil
-	}
-	reading, err := c.sds011Sensor.Query()
-	if err != nil {
-		// try resetting the sensor
-		if err2 := c.setupSensor(); err2 != nil {
-			return nil, errors.Wrap(err, err2.Error())
-		}
-		reading, err = c.sds011Sensor.Query()
-		if err != nil {
-			return nil, err
-		}
-	}
-	return map[string]interface{}{
-		"pm_10":  reading.PM10,
-		"pm_2.5": reading.PM25,
-		"units":  "μg/m³",
-	}, nil
-}
-
-func (c *component) setupSensor() error {
-	c.logger.Info("setting up sensor\n")
-	if c.sds011Sensor != nil {
-		c.sds011Sensor.Close()
-	}
-	var err error
-	c.sds011Sensor, err = sds011.New(c.cfg.USBInterface)
-	if err != nil {
-		return errors.Wrapf(err, "unable to connect to interface %q", c.cfg.USBInterface)
-	}
-	if val, err := c.sds011Sensor.IsAwake(); err != nil || !val {
-		if err != nil {
-			return errors.Wrap(err, "reading sensor awakeness")
-		}
-		if err := c.sds011Sensor.Awake(); err != nil {
-			return errors.Wrap(err, "unable to set the sensor to awake")
-		}
-	}
-	if err := c.sds011Sensor.MakePassive(); err != nil {
-		return errors.Wrap(err, "unable to set the sensor to passive")
-	}
-	return nil
 }
 
 // DoCommand sends/receives arbitrary data.
@@ -141,14 +94,54 @@ func (c *component) DoCommand(ctx context.Context, cmd map[string]interface{}) (
 	return make(map[string]interface{}), nil
 }
 
+// Images is used for getting simultaneous images from different imagers,
+// along with associated metadata (just timestamp for now). It's not for getting a time series of images from the same imager.
+func (c *component) Images(ctx context.Context) ([]camera.NamedImage, resource.ResponseMetadata, error) {
+	if c.isFake {
+		return nil, resource.ResponseMetadata{}, nil
+	}
+	return c.captureCam.Images(ctx)
+}
+
+// Stream returns a stream that makes a best effort to return consecutive images
+// that may have a MIME type hint dictated in the context via gostream.WithMIMETypeHint.
+func (c *component) Stream(ctx context.Context, errHandlers ...gostream.ErrorHandler) (gostream.VideoStream, error) {
+	if c.isFake {
+		return nil, nil
+	}
+	return c.captureCam.Stream(ctx, errHandlers...)
+}
+
+// NextPointCloud returns the next immediately available point cloud, not necessarily one
+// a part of a sequence. In the future, there could be streaming of point clouds.
+func (c *component) NextPointCloud(ctx context.Context) (pointcloud.PointCloud, error) {
+	if c.isFake {
+		return nil, nil
+	}
+	return c.captureCam.NextPointCloud(ctx)
+}
+
+// Properties returns properties that are intrinsic to the particular
+// implementation of a camera
+func (c *component) Properties(ctx context.Context) (camera.Properties, error) {
+	if c.isFake {
+		return camera.Properties{}, nil
+	}
+	return c.captureCam.Properties(ctx)
+}
+
+func (c *component) Projector(ctx context.Context) (transform.Projector, error) {
+	if c.isFake {
+		return nil, nil
+	}
+	return c.captureCam.Projector(ctx)
+}
+
 // Close must safely shut down the resource and prevent further use.
 // Close must be idempotent.
 // Later reconfiguration may allow a resource to be "open" again.
 func (c *component) Close(ctx context.Context) error {
 	c.cancelFunc()
-	if c.sds011Sensor != nil {
-		c.sds011Sensor.Close()
-	}
 	c.logger.Info("closing\n")
 	return nil
 }
