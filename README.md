@@ -21,8 +21,8 @@ zaporter:timelapse:v1-fake
 ```json
 {
   "capture_camera": "webcam_name_here",
-  "capture_interval_seconds": "10",
-  "playback_fps": "20"
+  "capture_interval_seconds": 10.0,
+  "playback_fps": 20
 }
 ```
 
