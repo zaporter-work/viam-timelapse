@@ -5,17 +5,15 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"github.com/ryszard/sds011/go/sds011"
 
-	"go.viam.com/rdk/components/sensor"
-	_ "go.viam.com/rdk/components/camera"
+	"go.viam.com/rdk/components/camera"
 	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/resource"
 )
 
 var (
-	Model     = resource.NewModel("zaporter", "sds011", "v1")
-	ModelFake = resource.NewModel("zaporter", "sds011", "v1-fake")
+	Model     = resource.NewModel("zaporter", "timelapse", "v1")
+	ModelFake = resource.NewModel("zaporter", "timelapse", "v1-fake")
 )
 
 func init() {
@@ -28,7 +26,7 @@ func init() {
 			return createComponent(ctx, deps, conf, logger, false)
 		},
 	}
-	resource.RegisterComponent(sensor.API, Model, registration)
+	resource.RegisterComponent(camera.API, Model, registration)
 
 	registrationFake := resource.Registration[resource.Resource, *Config]{
 		Constructor: func(ctx context.Context,
@@ -39,7 +37,7 @@ func init() {
 			return createComponent(ctx, deps, conf, logger, true)
 		},
 	}
-	resource.RegisterComponent(sensor.API, ModelFake, registrationFake)
+	resource.RegisterComponent(camera.API, ModelFake, registrationFake)
 }
 
 type component struct {
