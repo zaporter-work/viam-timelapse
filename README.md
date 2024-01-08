@@ -7,7 +7,7 @@
   <br>
 </h1>
 
-# Features
+Captures frames from a camera at a designated frequency, saves them to the local device in ($VIAM\_MODULE\_DATA) and then plays back the timelapse on the control tab
 
 # Models
 
@@ -22,7 +22,7 @@ zaporter:timelapse:v1-fake
 {
   "capture_camera": "webcam_name_here",
   "capture_interval_seconds": "10",
-  "playback_fps": "20",
+  "playback_fps": "20"
 }
 ```
 
