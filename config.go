@@ -8,6 +8,7 @@ type Config struct {
 	CaptureCamera          string  `json:"capture_camera"`
 	CaptureIntervalSeconds float64 `json:"capture_interval_seconds"`
 	PlaybackFPS            float64 `json:"playback_fps"`
+	TimelapseName          string  `json:"timelapse_name"`
 }
 
 // Validate takes the current location in the config (useful for good error messages).
@@ -23,5 +24,8 @@ func (cfg *Config) Validate(path string) ([]string, error) {
 	if cfg.PlaybackFPS <= 0 {
 		return nil, errors.New(path + " playback_fps must be greater than 0")
 	}
+    if cfg.TimelapseName == "" {
+        cfg.TimelapseName = "default"
+    }
 	return []string{cfg.CaptureCamera}, nil
 }

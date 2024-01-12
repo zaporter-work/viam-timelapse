@@ -22,7 +22,8 @@ zaporter:timelapse:v1-fake
 {
   "capture_camera": "webcam_name_here",
   "capture_interval_seconds": 10.0,
-  "playback_fps": 20
+  "playback_fps": 20,
+  "timelapse_name" : "default" #optional
 }
 ```
 
