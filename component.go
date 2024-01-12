@@ -231,6 +231,9 @@ func (t *TimelapseStream) NextPath() (string, error) {
 	if t.index >= len(entries) {
 		t.index = 0
 	}
+    if len(entries)==0 {
+        return "", errors.New("no images captured yet")
+    }
 	return filepath.Join(t.imgDir, entries[t.index]), nil
 }
 func readImg(path string) (image.Image, error) {
