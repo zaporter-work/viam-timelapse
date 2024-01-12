@@ -2,7 +2,7 @@
   "module_id": "zaporter:timelapse",
   "visibility": "public",
   "url": "https://github.com/zaporter/viam-timelapse",
-  "description": "create a timelapse from a camera",
+  "description": "create a timelapse from a camera and view it in the control tab",
   "models": [
     {
       "api": "rdk:component:camera",
