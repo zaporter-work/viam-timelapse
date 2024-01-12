@@ -31,6 +31,10 @@ zaporter:timelapse:v1-fake
 
 A camera stream on the control page that shows the timelapse (if using the fake model, it will show a sample timelapse)
 
+# Missing functionality
+
+Save or export the timelapse: I want to do this eventually. If someone wants this, feel free to file an issue and I'll find time to do it. Otherwise, you can just grab the images yourself and use imagemagick
+
 # Building
 
 `make build` -> `bin/module`
