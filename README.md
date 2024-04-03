@@ -5,7 +5,6 @@
   <br>
   Timelapse module for Viam
   <br>
-</h1>
 
 <h2>Warning: this module is in beta its config may change in future versions.</h2>
 
